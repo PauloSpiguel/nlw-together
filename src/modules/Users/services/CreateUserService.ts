@@ -1,5 +1,3 @@
-import { PrismaUsersRepositories } from "../repositories/implementations/PrismaUsersRepositories";
-
 import { User } from "../dtos/CreateUserDTO";
 import { IUserRepositories } from "../IUserRepositories";
 
