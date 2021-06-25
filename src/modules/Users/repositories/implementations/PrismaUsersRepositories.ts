@@ -12,6 +12,12 @@ class PrismaUsersRepositories implements IUserRepositories {
     return user;
   }
 
+  async findAll(): Promise<User[]> {
+    const users = await this.client.user.findMany();
+
+    return users;
+  }
+
   async create({ name, email, admin }: CreateUserDTO): Promise<User> {
     const user = await this.client.user.create({
       data: { name, email, admin },

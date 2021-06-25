@@ -5,7 +5,9 @@
   "author": "Paulo Spiguel",
   "license": "MIT",
   "scripts": {
-    "dev": "ts-node-dev src/server.ts"
+    "dev": "ts-node-dev src/server.ts",
+    "db:migrate": "npx prisma migrate dev",
+    "db:studio": "npx prisma studio"
   },
   "devDependencies": {
     "@types/express": "^4.17.12",
@@ -17,7 +19,8 @@
   },
   "dependencies": {
     "@prisma/client": "^2.25.0",
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "express-async-errors": "^3.1.1"
   },
   "prisma": {
     "schema": "src/database/prisma/schema.prisma"
