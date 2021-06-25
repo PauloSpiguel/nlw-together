@@ -8,6 +8,8 @@ class CreateTagController {
   async handle(request: Request, response: Response) {
     const { name } = request.body;
 
+    if (!name) throw new Error("Name is required");
+
     const createTagService = new CreateTagService(tagsRepository);
 
     const tag = await createTagService.execute({ name });
