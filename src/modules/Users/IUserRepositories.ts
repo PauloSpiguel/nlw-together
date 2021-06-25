@@ -1,4 +1,4 @@
-import { CreateUserDTO, User } from "./dtos/CreateUserDTO";
+import { CreateUserDTO, User } from "./dtos";
 
 interface IUserRepositories {
   findByEmail(email: string): Promise<User>;
