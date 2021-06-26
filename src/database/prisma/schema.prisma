@@ -11,11 +11,15 @@ generator client {
 }
 
 model User {
-  id         String   @id @default(cuid())
-  email      String   @unique
-  name       String?
-  password   String
-  admin      Boolean  @default(false)
+  id       String  @id @default(cuid())
+  email    String  @unique
+  name     String?
+  password String
+  admin    Boolean @default(false)
+
+  users_sender   Compliment[] @relation("UserSender")
+  users_receiver Compliment[] @relation("UserReceiver")
+
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
 
@@ -23,10 +27,27 @@ model User {
 }
 
 model Tag {
-  id         String   @id @default(cuid())
+  id         String       @id @default(cuid())
   name       String
+  Compliment Compliment[]
+
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
 
   @@map("tags")
+}
+
+model Compliment {
+  id             String @id @default(cuid())
+  message        String
+  user_sender    User   @relation(name: "UserSender", fields: [userSenderId], references: [id])
+  userSenderId   String
+  user_receiver  User   @relation(name: "UserReceiver", fields: [userReceiverId], references: [id])
+  userReceiverId String
+  tag            Tag    @relation(fields: [tagId], references: [id])
+  tagId          String
+
+  created_at DateTime @default(now())
+
+  @@map("compliments")
 }

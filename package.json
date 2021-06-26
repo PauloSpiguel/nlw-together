@@ -13,6 +13,7 @@
   "devDependencies": {
     "@types/bcrypt": "^5.0.0",
     "@types/express": "^4.17.12",
+    "@types/jsonwebtoken": "^8.5.2",
     "@types/node": "^15.12.4",
     "prisma": "^2.25.0",
     "ts-node": "^10.0.0",
@@ -23,7 +24,8 @@
     "@prisma/client": "^2.25.0",
     "bcrypt": "^5.0.1",
     "express": "^4.17.1",
-    "express-async-errors": "^3.1.1"
+    "express-async-errors": "^3.1.1",
+    "jsonwebtoken": "^8.5.1"
   },
   "prisma": {
     "schema": "src/database/prisma/schema.prisma"

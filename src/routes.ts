@@ -1,13 +1,14 @@
 import { Router } from "express";
-import { CreateUserController } from "./modules/Users/controllers/CreateUserController";
-import { CreateTagController } from "./modules/Tags/controllers/CreateTagController";
-import { tagsRoutes } from "./modules/Tags/routes/tagsRoutes";
+import { tagsRoutes } from "./modules/Tags/routes/tags.routes";
+import { usersRoutes } from "./modules/Users/routes/users.routes";
+import { authenticateRoutes } from "./modules/Users/routes/authenticateRoutes.routes";
+import { complimentsRoutes } from "./modules/Compliments/routes/compliments.routes";
 
-const router = Router();
+const routes = Router();
 
-const createUserController = new CreateUserController();
+routes.use("/login", authenticateRoutes);
+routes.use("/users", usersRoutes);
+routes.use("/tags", tagsRoutes);
+routes.use("/compliments", complimentsRoutes);
 
-router.post("/users", createUserController.handle);
-router.use("/tags", tagsRoutes);
-
-export { router };
+export { routes };

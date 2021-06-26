@@ -2,13 +2,13 @@ import express from "express";
 
 import { exceptionError } from "./middlewares/exceptionError";
 
-import { router } from "./routes";
+import { routes } from "./routes";
 
 const app = express();
 
 app.use(express.json());
 
-app.use(router);
+app.use(routes);
 
 app.use(exceptionError);
 

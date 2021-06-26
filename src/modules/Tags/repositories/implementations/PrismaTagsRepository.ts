@@ -6,17 +6,19 @@ class PrismaTagsRepository implements ITagsRepositories {
   private client = new PrismaClient();
 
   async findByName(name: string): Promise<Tag> {
-    const tag = await this.client.tag.findFirst({ where: { name } });
-    return tag;
+    return await this.client.tag.findFirst({ where: { name } });
   }
+
   async create({ name }: ICreateTagDTO): Promise<Tag> {
-    const tag = await this.client.tag.create({
+    return await this.client.tag.create({
       data: {
         name,
       },
     });
+  }
 
-    return tag;
+  async findMany(): Promise<Tag[]> {
+    return await this.client.tag.findMany();
   }
 }
 
