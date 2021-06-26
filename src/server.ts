@@ -1,10 +1,12 @@
 import express from "express";
+import cors from "cors";
 
 import { exceptionError } from "./middlewares/exceptionError";
 
 import { routes } from "./routes";
 
 const app = express();
+app.use(cors());
 
 app.use(express.json());
 

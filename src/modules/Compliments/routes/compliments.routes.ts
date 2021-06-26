@@ -1,18 +1,25 @@
 import { Router } from "express";
 import { CreateComplimentController } from "../controllers/CreateComplimentController";
+import { ListUserSendComplimentsController } from "../controllers/ListUserSendComplimentsController";
 
-import { ensureAdmin } from "../../../middlewares/ensureAdmin";
-import { checkAuthenticateUser } from "../../../middlewares/checkAuthenticateUser";
+import { ensureAuthenticated } from "../../../middlewares/ensureAuthenticated";
 
 const createComplimentController = new CreateComplimentController();
+const listUserSendComplimentsController =
+  new ListUserSendComplimentsController();
 
 const complimentsRoutes = Router();
 
 complimentsRoutes.post(
   "/",
-  checkAuthenticateUser,
-  ensureAdmin,
+  ensureAuthenticated,
   createComplimentController.handle
+);
+
+complimentsRoutes.get(
+  "/",
+  ensureAuthenticated,
+  listUserSendComplimentsController.handle
 );
 
 export { complimentsRoutes };

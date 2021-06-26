@@ -1,7 +1,11 @@
-import { CreateComplimentDTO } from "./dtos";
+import { CreateComplimentDTO, Compliment } from "./dtos";
 
 interface IComplimentsRepositories {
-  create(data: CreateComplimentDTO): Promise<any>;
+  create(data: CreateComplimentDTO): Promise<Compliment>;
+  findManyByUser(
+    key: "userSenderId" | "userReceiverId",
+    userId: string
+  ): Promise<Compliment[]>;
 }
 
 export { IComplimentsRepositories };

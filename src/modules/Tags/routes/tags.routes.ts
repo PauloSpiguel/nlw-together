@@ -1,5 +1,6 @@
 import { Router } from "express";
 import { ensureAdmin } from "../../../middlewares/ensureAdmin";
+import { ensureAuthenticated } from "../../../middlewares/ensureAuthenticated";
 
 import { CreateTagController } from "../controllers/CreateTagController";
 import { ListTagController } from "../controllers/ListTagController";
@@ -9,7 +10,12 @@ const listTagController = new ListTagController();
 
 const tagsRoutes = Router();
 
-tagsRoutes.post("/", ensureAdmin, createTagController.handle);
-tagsRoutes.get("/", ensureAdmin, listTagController.handle);
+tagsRoutes.post(
+  "/",
+  ensureAuthenticated,
+  ensureAdmin,
+  createTagController.handle
+);
+tagsRoutes.get("/", ensureAuthenticated, ensureAdmin, listTagController.handle);
 
 export { tagsRoutes };

@@ -3,7 +3,20 @@ import { CreateUserDTO, User } from "../../dtos";
 import { IUserRepositories } from "../../IUserRepositories";
 
 class PrismaUsersRepositories implements IUserRepositories {
-  constructor(private client = new PrismaClient()) {}
+  constructor(private client = new PrismaClient()) {
+    client.$use(async (params, next) => {
+      let result = await next(params);
+      if (params.model == "User" && params.action == "findMany") {
+        result = result.map((user) => {
+          delete user.password;
+          return user;
+        });
+      }
+
+      return result;
+    });
+  }
+
   async findById(id: string): Promise<User> {
     return await this.client.user.findUnique({ where: { id } });
   }
@@ -13,14 +26,7 @@ class PrismaUsersRepositories implements IUserRepositories {
   }
 
   async findMany(): Promise<User[]> {
-    const users = await this.client.user.findMany();
-
-    const formatUsers = users.map((user) => {
-      delete user.password;
-      return user;
-    });
-
-    return formatUsers;
+    return await this.client.user.findMany();
   }
 
   async create({ name, email, password, admin }: CreateUserDTO): Promise<User> {

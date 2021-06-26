@@ -2,16 +2,18 @@ import { NextFunction, Request, Response } from "express";
 import ITokenProvider from "../lib/providers/ITokenProvider";
 import { TokenProvider } from "../lib/providers/TokenProvider";
 
+interface IPayload {
+  sub: string;
+}
+
 let tokenProvider: ITokenProvider;
 
-export function checkAuthenticateUser(
+export function ensureAuthenticated(
   request: Request,
   response: Response,
   next: NextFunction
 ) {
   const { authorization } = request.headers;
-
-  tokenProvider = new TokenProvider();
 
   if (!authorization) {
     return response
@@ -27,15 +29,16 @@ export function checkAuthenticateUser(
       .json({ error: true, message: "Token is invalid" });
   }
 
-  const decoded = tokenProvider.decodeToken(token);
+  try {
+    tokenProvider = new TokenProvider();
+    const { sub } = tokenProvider.verifyToken(token) as IPayload;
 
-  if (!decoded) {
+    request.user_id = sub;
+
+    return next();
+  } catch (error) {
     return response
       .status(401)
       .json({ error: true, message: "Token is invalid" });
   }
-
-  request.user = String(decoded.sub);
-
-  return next();
 }
